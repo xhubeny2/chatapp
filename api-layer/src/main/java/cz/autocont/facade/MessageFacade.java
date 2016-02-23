@@ -9,7 +9,6 @@ import java.util.List;
  */
 public interface MessageFacade {
     public Long createMessage(MessageDTO m);
-    public boolean deleteMessage(Long id);
     public List<MessageDTO> getAllMessages();
     
 }

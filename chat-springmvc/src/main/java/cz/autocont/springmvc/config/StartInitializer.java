@@ -1,6 +1,5 @@
 package cz.autocont.springmvc.config;
 
-import cz.autocont.springmvc.config.SpringMvcConfig;
 import javax.servlet.Filter;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;

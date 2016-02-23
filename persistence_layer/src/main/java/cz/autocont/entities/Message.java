@@ -28,7 +28,7 @@ public class Message {
     
     @NotNull
     @Size(min = 3)
-    private String user;
+    private String userName;
     
     @NotNull
     @Temporal(TemporalType.DATE)
@@ -49,11 +49,11 @@ public class Message {
     }
 
     public String getUser() {
-        return user;
+        return userName;
     }
 
     public void setUser(String user) {
-        this.user = user;
+        this.userName = user;
     }
 
     public Date getDateAndTime() {
@@ -78,7 +78,7 @@ public class Message {
     public int hashCode() {
         final int prime = 13;
         int result = 1;
-        result = prime * result + user.hashCode();
+        result = prime * result + userName.hashCode();
         result = prime * result + dateAndTime.hashCode();
         result = prime * result + ((text == null) ? 0 : text.hashCode());
         return result;
@@ -96,11 +96,11 @@ public class Message {
             return false;
         }
         Message other = (Message) obj;
-        if (user == null) {
+        if (userName == null) {
             if (other.getUser()!= null) {
                 return false;
             }
-        } else if (!user.equals(other.getUser())) {
+        } else if (!userName.equals(other.getUser())) {
             return false;
         }
         if (dateAndTime == null) {

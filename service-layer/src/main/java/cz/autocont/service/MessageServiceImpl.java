@@ -6,9 +6,12 @@
 package cz.autocont.service;
 
 import cz.autocont.daos.MessageDao;
+import cz.autocont.daos.MessageDaoImpl;
 import cz.autocont.entities.Message;
 import java.util.List;
+import javax.inject.Inject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,9 +19,10 @@ import org.springframework.stereotype.Service;
  * @author Michael
  */
 @Service
+@ComponentScan(basePackageClasses={MessageDaoImpl.class})
 public class MessageServiceImpl implements MessageService {
     
-    @Autowired
+    @Inject
     private MessageDao messageDao;
 
     @Override
