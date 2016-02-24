@@ -77,6 +77,12 @@
             <artifactId>api-layer</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+            <classifier>api</classifier>
+        </dependency>
     </dependencies>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

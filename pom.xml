@@ -6,12 +6,22 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Chatting Application</name>
+    
+    <parent>
+        <groupId>io.spring.platform</groupId>
+        <artifactId>platform-bom</artifactId>
+        <version>2.0.1.RELEASE</version>
+        <relativePath/>
+    </parent>
+    
     <modules>
         <module>persistence_layer</module>
         <module>api-layer</module>
         <module>service-layer</module>
     <module>chat-springmvc</module>
   </modules>
+  
+  
     <dependencies>
         <dependency>
             <groupId>org.apache.tomcat</groupId>

@@ -1,7 +1,17 @@
 package cz.autocont.springmvc.config;
 
-import javax.servlet.Filter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRegistration;
+import javax.servlet.jsp.jstl.core.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.WebApplicationInitializer;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -10,43 +20,38 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
  *
  * @author xhubeny2
  */
-public class StartInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class StartInitializer implements WebApplicationInitializer {
 
-    /**
-     * Creates spring context.
-     * @return Spring context specified in class SpringMvcConfig.class.
-     */
+    final static Logger log = LoggerFactory.getLogger(StartInitializer.class);
+
     @Override
-    protected Class<?>[] getRootConfigClasses() {
-        return new Class<?>[] {SpringMvcConfig.class};
-    }
-    
-    /**
-     * Specify @Configuration classes to be provided to the dispatcher servlet application context.
-     * @return The configuration classes for the dispatcher servlet application context (may not be empty or null).
-     */
-    @Override
-    protected Class<?>[] getServletConfigClasses() {
-        return null;
-    }
-    
-    /**
-     * Specify the servlet mapping(s) for the DispatcherServlet, e.g. '/', '/app', etc.
-     * @return '/'
-     */
-    @Override
-    protected String[] getServletMappings() {
-        return new String[]{"/", "/static/*"};
-    }
-    
-    /**
-     * Maps filters to the dispatcher servlet.
-     * @return Filter registration.
-     */
-    @Override
-    protected Filter[] getServletFilters(){
-        CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
-        encodingFilter.setEncoding("utf-8");
-        return new Filter[]{encodingFilter};
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        //create Spring beans context configured in MySpringMvcConfig.class
+        AnnotationConfigWebApplicationContext ctx = new AnnotationConfigWebApplicationContext();
+        ctx.setServletContext(servletContext);
+        ctx.register(SpringMvcConfig.class);
+        ctx.refresh();
+        servletContext.addListener(new ContextLoaderListener(ctx));
+
+        //register Spring MVC main Dispatcher servlet
+        ServletRegistration.Dynamic disp = servletContext.addServlet("dispatcher", new DispatcherServlet(ctx));
+        disp.setLoadOnStartup(1);
+        disp.addMapping("/");
+
+        //register filter setting utf-8 encoding on all requests
+        FilterRegistration.Dynamic encoding = servletContext.addFilter("encoding", CharacterEncodingFilter.class);
+        encoding.setInitParameter("encoding", "utf-8");
+        encoding.addMappingForUrlPatterns(null, false, "/*");
+
+        //register message bundle properties also for JSTL fmt: tags which are not behind DispatcherServlet
+        servletContext.setInitParameter(Config.FMT_LOCALIZATION_CONTEXT, SpringMvcConfig.TEXTS);
+
+        //load eShop sample data to populate the database
+        /*try {
+            ctx.getBean(SampleDataLoadingFacade.class).loadData();
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }*/
+
     }
 }

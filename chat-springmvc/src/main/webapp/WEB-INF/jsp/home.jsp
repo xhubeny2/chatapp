@@ -1,17 +1,20 @@
-<%-- 
-    Document   : home
-    Created on : 23.2.2016, 13:06:11
-    Author     : Michael
---%>
+<%@ page contentType="text/html;charset=UTF-8" pageEncoding="utf-8" trimDirectiveWhitespaces="true" session="false" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="my" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+
+<title>Chat window</title>
+<my:pagetemplate title="${title}">
+<jsp:attribute name="body">
+    <h1>Chat window</h1>
+    
+    <form action="${pageContext.request.contextPath}/chat/create" method="post">  
+        Name: <input type="text" name="name"><br>  
+        Text: <input type="text" name="message" size="70"><br>  
+        <input type="submit" value="Send">  
+    </form>  
+</jsp:attribute>
+</my:pagetemplate>

@@ -1,6 +1,7 @@
 package cz.autocont.springmvc.config;
 
 //import cz.muni.fi.pa165.carpark.sampledata.CarParkWithSampleDataConfiguration;
+import cz.autocont.service.config.MappingConfiguration;
 import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
  */
 @EnableWebMvc
 @Configuration
-//@Import({CarParkWithSampleDataConfiguration.class})
+@Import(MappingConfiguration.class)
 @ComponentScan(basePackages = "cz.autocont.springmvc.controllers")
 public class SpringMvcConfig extends WebMvcConfigurerAdapter{
     
